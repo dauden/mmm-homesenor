@@ -82,7 +82,7 @@ The following properties can be configured:
 		<tr>
 			<td><code>valueProperty</code></td>
 			<td>The value of property fro senor
-				<br><b>Ex:</b> <code>DHT11</code>Senor, <code>{temperature, humditity}</code>
+				<br><b>Ex:</b> <code>DHT11</code>Senor, <code>{temperature, humidity}</code>
 				<br><b>Default value:</b> <code>temperature</code> (Celsius)
 			</td>
 		</tr>

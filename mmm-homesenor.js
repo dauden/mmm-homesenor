@@ -9,14 +9,14 @@ Module.register("mmm-homesenor",{
       valueProperty: 'temperature',
       unit: 'c'
     },{
-      name: 'Living Room humditity:',
-      valueProperty: 'humditity',
+      name: 'Living Room humidity:',
+      valueProperty: 'humidity',
       unit: '%'
     }]
   },
 
   start: function() {
-    this.html = this.config.prependString;
+    this.html = ''
     this.currentValue = null;
     this.sendSocketNotification('CONFIG', this.config);
   },
@@ -33,7 +33,7 @@ Module.register("mmm-homesenor",{
   getDom: function() {
     var wrapper = document.createElement("div");
 
-    // Append &deg; + unit
+    this.html = ''
     if(this.currentValue){
       for (let item of this.config.data) {
         this.html += `<br>&deg;' ${item.name} ${this.currentValue[item.valueProperty]} ${item.unit.toUpperCase()}`; 
