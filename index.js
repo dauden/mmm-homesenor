@@ -5,11 +5,11 @@ Module.register("mmm-homesenor",{
     updateInterval: 5000,
     animationSpeed: 0,
     data: [{
-      name: 'Living Room temperature:'
-      valueProperty: 'temperature'
+      name: 'Living Room temperature:',
+      valueProperty: 'temperature',
       unit: 'c'
     },{
-      name: 'Living Room humditity:'
+      name: 'Living Room humditity:',
       valueProperty: 'humditity',
       unit: '%'
     }]

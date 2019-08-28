@@ -14,6 +14,11 @@ Clone this repository:
 git clone https://github.com/dauden/mmm-homesenor.git
 ````
 
+inside of mmm-homesenor directory
+```
+npm install
+```
+
 Configure the module in your `config.js` file.
 
 ## Using the module
