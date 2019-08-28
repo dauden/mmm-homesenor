@@ -1,73 +1,45 @@
-const sensor = require('node-dht-sensor');
-const SENOR_TYPE = 22;
-const GPIO_PIN = 17
-let Service, Characteristic;
+Module.register("mmm-homesenor",{
 
-module.exports = function(homebridge) {
-  Service = homebridge.hap.Service;
-  Characteristic = homebridge.hap.Characteristic;
-  homebridge.registerAccessory('homebridge-temperature-sensor', 'HomeSenor', HomeSenor);
-};
+  defaults: {
+    prependString: 'Home Status: ',
+    updateInterval: 5000,
+    animationSpeed: 0,
+    data: [{
+      name: 'Living Room temperature:'
+      valueProperty: 'temperature'
+      unit: 'c'
+    },{
+      name: 'Living Room humditity:'
+      valueProperty: 'humditity',
+      unit: 'c'
+    }]
+  },
 
-class HomeSenor {
-  constructor(log, config) {
-    this.log = log;
-    this.name = config.name;
-    this.gpioPin = Number( config["gpio_pin"] || GPIO_PIN );
-    this.sensorType = Number( config["sensor_type"] || SENOR_TYPE );
-    this.currentTemperature = 22;
-  }
+  start: function() {
+    this.html = this.config.prependString;
+    this.currentValue = null;
+    this.sendSocketNotification('CONFIG', this.config);
+  },
 
-  identify(callback) {
-    this.log('Identify requested!');
-    callback(null);
-  }
-
-  startReading() {
-    let sefl = this;
-    const callback = () => {
-      setTimeout(() => this.getReading(callback), 5000);
-    };
-
-    this.getReading(callback);
-  }
-
-  getReading(callback) {
-    let sefl = this;
-    sensor.read(this.sensorType, this.gpioPin, (err, temperature) => {
-      callback();
-      if (err) {
-        console.error(err); // eslint-disable-line no-console
-        return;
+  socketNotificationReceived: function(notification, payload) {
+      if (notification === 'SENSORDATA') {
+        this.currentValue = payload;
+        this.updateDom(this.config.animationSpeed);
       }
-      sefl.log("currentTemperature:", temperature)
-      this.currentTemperature = temperature;
-      this.temperatureService.setCharacteristic(Characteristic.CurrentTemperature, temperature);
-    });
+  },
+
+  // Override dom generator.
+  getDom: function() {
+    var wrapper = document.createElement("div");
+
+    // Append &deg; + unit
+    if(this.currentValue){
+      for (let item of this.config.data) {
+        this.html += `<br>&deg;' ${item.name} ${this.currentValue[item.valueProperty]} ${item.unit.toUpperCase()}`; 
+      }
+    }
+
+    wrapper.innerHTML = this.config.prependString + this.currentValue;
+    return wrapper;
   }
-
-  getServices() {
-    const informationService = new Service.AccessoryInformation();
-
-    informationService
-      .setCharacteristic(Characteristic.Manufacturer, 'Encore Dev Labs')
-      .setCharacteristic(Characteristic.Model, 'Pi Temperature Sensor')
-      .setCharacteristic(Characteristic.SerialNumber, 'Raspberry Pi');
-
-    this.temperatureService = new Service.TemperatureSensor(this.name);
-    this.temperatureService
-      .getCharacteristic(Characteristic.CurrentTemperature)
-      .on('get', (callback) => {
-        callback(null, this.currentTemperature);
-      });
-    this.temperatureService
-      .getCharacteristic(Characteristic.Name)
-      .on('get', callback => {
-        callback(null, this.name);
-      });
-
-    this.startReading();
-
-    return [informationService, this.temperatureService];
-  }
-}
+});
