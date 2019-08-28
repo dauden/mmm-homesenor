@@ -11,7 +11,7 @@ Module.register("mmm-homesenor",{
     },{
       name: 'Living Room humditity:'
       valueProperty: 'humditity',
-      unit: 'c'
+      unit: '%'
     }]
   },
 
