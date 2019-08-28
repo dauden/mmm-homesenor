@@ -23,6 +23,7 @@ Module.register("mmm-homesenor",{
 
   socketNotificationReceived: function(notification, payload) {
       if (notification === 'SENSORDATA') {
+        console.log(payload);
         this.currentValue = payload;
         this.updateDom(this.config.animationSpeed);
       }
@@ -37,9 +38,10 @@ Module.register("mmm-homesenor",{
       for (let item of this.config.data) {
         this.html += `<br>&deg;' ${item.name} ${this.currentValue[item.valueProperty]} ${item.unit.toUpperCase()}`; 
       }
+      wrapper.innerHTML = this.config.prependString + this.html;
     }
-
-    wrapper.innerHTML = this.config.prependString + this.currentValue;
+    else
+      wrapper.innerHTML = this.config.prependString;
     return wrapper;
   }
 });
