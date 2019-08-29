@@ -36,7 +36,7 @@ Module.register("mmm-homesenor",{
     this.html = ''
     if(this.currentValue){
       for (let item of this.config.data) {
-        this.html += `<br>${item.name} ${this.currentValue[item.valueProperty]}${item.unit.toUpperCase()}${ item.valueProperty === 'temperature' ? '&deg;\'' : ''}`; 
+        this.html += `<br>${item.name} ${this.currentValue[item.valueProperty]}${ item.valueProperty === 'temperature' ? '&deg;\'' : ''}${item.unit.toUpperCase()}`; 
       }
       wrapper.innerHTML = this.config.prependString + this.html;
     }
