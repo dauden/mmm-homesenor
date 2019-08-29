@@ -2,7 +2,7 @@ Module.register("mmm-homesenor",{
 
   defaults: {
     prependString: 'Home Status: ',
-    updateInterval: 5000,
+    updateInterval: 120000,
     animationSpeed: 0,
     data: [{
       name: 'Living Room &#127777;:',
@@ -23,7 +23,6 @@ Module.register("mmm-homesenor",{
 
   socketNotificationReceived: function(notification, payload) {
       if (notification === 'SENSORDATA') {
-        console.log(payload);
         this.currentValue = payload;
         this.updateDom(this.config.animationSpeed);
       }

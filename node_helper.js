@@ -25,7 +25,6 @@ module.exports = NodeHelper.create({
 		const self = this;
 		sensor.read(self.config.sensorType, self.config.gpioPin).then(
 		    function (resp) {
-		      console.log(resp);
 		      self.sendSocketNotification('SENSORDATA', resp);
 		    },
 		    function (err) {
