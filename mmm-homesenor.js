@@ -2,7 +2,7 @@ Module.register("mmm-homesenor",{
 
   defaults: {
     prependString: 'Home Status: ',
-    updateInterval: 120000,
+    updateInterval: 300000,
     animationSpeed: 0,
     data: [{
       name: 'Living Room &#127777;:',
@@ -35,7 +35,7 @@ Module.register("mmm-homesenor",{
     this.html = ''
     if(this.currentValue){
       for (let item of this.config.data) {
-        this.html += `<br>${item.name} ${this.currentValue[item.valueProperty]}${ item.valueProperty === 'temperature' ? '&deg;\'' : ''}${item.unit.toUpperCase()}`; 
+        this.html += `<br>${item.name} ${Number(this.currentValue[item.valueProperty]).toFixed(1)}${ item.valueProperty === 'temperature' ? '&deg;' : ''}${item.unit.toUpperCase()}`; 
       }
       wrapper.innerHTML = this.config.prependString + this.html;
     }
